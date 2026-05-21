@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis Competitivo: Claro vs Liberty Costa Rica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS & RESET
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --c-bg: #050811;
+  --c-surface: #0a1020;
+  --c-surface2: #0f1828;
+  --c-border: rgba(255,255,255,0.07);
+  --c-border-em: rgba(255,255,255,0.15);
+  --c-text: #e8edf5;
+  --c-text-muted: #6b7a9a;
+  --c-text-dim: #3a4a6a;
+
+  --c-blue: #2e7fff;
+  --c-blue-dim: rgba(46,127,255,0.12);
+  --c-blue-mid: rgba(46,127,255,0.3);
+  --c-cyan: #00cfdd;
+  --c-cyan-dim: rgba(0,207,221,0.1);
+  --c-purple: #7c5cfc;
+  --c-purple-dim: rgba(124,92,252,0.12);
+  --c-green: #00d08a;
+  --c-green-dim: rgba(0,208,138,0.1);
+  --c-amber: #ffb340;
+  --c-amber-dim: rgba(255,179,64,0.1);
+  --c-red: #ff4f6a;
+  --c-red-dim: rgba(255,79,106,0.1);
+
+  --nav-h: 64px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--c-bg);
+  color: var(--c-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--c-bg); }
+::-webkit-scrollbar-thumb { background: var(--c-blue-mid); border-radius: 4px; }
+
+/* ============================================================
+   LOADER
+   ============================================================ */
+#loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--c-bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1.5rem;
+  transition: opacity 0.6s ease, visibility 0.6s;
+}
+#loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-logo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--c-text-muted);
+  text-transform: uppercase;
+}
+.loader-bar-wrap {
+  width: 200px; height: 2px;
+  background: var(--c-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.loader-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--c-blue), var(--c-cyan));
+  border-radius: 2px;
+  animation: loadBar 1.6s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+@keyframes loadBar { from { width: 0; } to { width: 100%; } }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem;
+  background: rgba(5,8,17,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--c-border);
+  transition: background 0.3s;
+}
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--c-text-muted);
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--c-blue);
+  box-shadow: 0 0 12px var(--c-blue);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+.nav-links {
+  display: flex; gap: 0.25rem;
+  list-style: none;
+}
+.nav-links a {
+  display: block;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--c-text-muted);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s, background 0.2s;
+  letter-spacing: 0.02em;
+}
+.nav-links a:hover { color: var(--c-text); background: var(--c-surface2); }
+.nav-cta {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.45rem 1.2rem;
+  background: var(--c-blue);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  letter-spacing: 0.02em;
+}
+.nav-cta:hover { background: #1a6ee8; transform: translateY(-1px); }
+
+/* ============================================================
+   ANIMATED GRID BG
+   ============================================================ */
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(46,127,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46,127,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 20%, black 20%, transparent 100%);
+}
+.glow-orb {
+  position: fixed; z-index: 0; pointer-events: none;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: orbFloat 12s ease-in-out infinite;
+}
+.orb-1 {
+  width: 600px; height: 400px;
+  top: -10%; left: -10%;
+  background: radial-gradient(circle, rgba(46,127,255,0.12) 0%, transparent 70%);
+}
+.orb-2 {
+  width: 500px; height: 500px;
+  top: 30%; right: -15%;
+  background: radial-gradient(circle, rgba(124,92,252,0.1) 0%, transparent 70%);
+  animation-delay: -4s;
+}
+.orb-3 {
+  width: 400px; height: 300px;
+  bottom: 20%; left: 30%;
+  background: radial-gradient(circle, rgba(0,207,221,0.07) 0%, transparent 70%);
+  animation-delay: -8s;
+}
+@keyframes orbFloat {
+  0%,100% { transform: translate(0,0); }
+  33% { transform: translate(20px, -30px); }
+  66% { transform: translate(-15px, 20px); }
+}
+
+/* ============================================================
+   LAYOUT HELPERS
+   ============================================================ */
+.page { position: relative; z-index: 1; padding-top: var(--nav-h); }
+.section { padding: 5rem 0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ============================================================
+   LABELS & BADGES
+   ============================================================ */
+.label {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 100px;
+}
+.label-blue { background: var(--c-blue-dim); color: var(--c-blue); border: 1px solid var(--c-blue-mid); }
+.label-cyan { background: var(--c-cyan-dim); color: var(--c-cyan); border: 1px solid rgba(0,207,221,0.25); }
+.label-purple { background: var(--c-purple-dim); color: var(--c-purple); border: 1px solid rgba(124,92,252,0.25); }
+.label-green { background: var(--c-green-dim); color: var(--c-green); border: 1px solid rgba(0,208,138,0.25); }
+.label-amber { background: var(--c-amber-dim); color: var(--c-amber); border: 1px solid rgba(255,179,64,0.25); }
+.label-red { background: var(--c-red-dim); color: var(--c-red); border: 1px solid rgba(255,79,106,0.25); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: calc(var(--nav-h) + 3rem) 0 5rem;
+  text-align: center;
+  position: relative;
+}
+.hero-inner { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+.hero-eyebrow {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1rem; margin-bottom: 2rem;
+}
+.hero-vs {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--c-text-dim);
+  padding: 0 0.75rem;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+.hero h1 span.gradient {
+  background: linear-gradient(135deg, var(--c-blue) 0%, var(--c-cyan) 50%, var(--c-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--c-text-muted);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+}
+.hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 0.75rem 2rem;
+  background: var(--c-blue);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  border: none; cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn-primary:hover {
+  background: #1a6ee8;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(46,127,255,0.35);
+}
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  color: var(--c-text);
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  border: 1px solid var(--c-border-em);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+.btn-outline:hover {
+  background: var(--c-surface2);
+  border-color: rgba(255,255,255,0.25);
+  transform: translateY(-2px);
+}
+.hero-scroll {
+  margin-top: 4rem;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 0.5rem;
+  color: var(--c-text-dim);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+@keyframes scrollBounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--c-blue), transparent);
+}
+
+/* ============================================================
+   SECTION HEADERS
+   ============================================================ */
+.sec-header { text-align: center; margin-bottom: 3.5rem; }
+.sec-header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0.75rem 0 0.5rem;
+  line-height: 1.2;
+}
+.sec-header p {
+  font-size: 1rem;
+  color: var(--c-text-muted);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   METRIC CARDS
+   ============================================================ */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+.metric-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.metric-card:hover {
+  border-color: var(--c-border-em);
+  transform: translateY(-3px);
+}
+.metric-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+}
+.metric-card.blue::before { background: linear-gradient(90deg, transparent, var(--c-blue), transparent); }
+.metric-card.cyan::before { background: linear-gradient(90deg, transparent, var(--c-cyan), transparent); }
+.metric-card.purple::before { background: linear-gradient(90deg, transparent, var(--c-purple), transparent); }
+.metric-card.green::before { background: linear-gradient(90deg, transparent, var(--c-green), transparent); }
+.metric-card.amber::before { background: linear-gradient(90deg, transparent, var(--c-amber), transparent); }
+.metric-card.red::before { background: linear-gradient(90deg, transparent, var(--c-red), transparent); }
+
+.metric-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--c-text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.metric-value {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.metric-value.blue { color: var(--c-blue); }
+.metric-value.cyan { color: var(--c-cyan); }
+.metric-value.purple { color: var(--c-purple); }
+.metric-value.green { color: var(--c-green); }
+.metric-value.amber { color: var(--c-amber); }
+.metric-value.red { color: var(--c-red); }
+.metric-sub {
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+}
+.metric-trend {
+  position: absolute; top: 1.25rem; right: 1.25rem;
+  font-size: 0.72rem; font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 100px;
+}
+.trend-up { background: var(--c-green-dim); color: var(--c-green); }
+.trend-down { background: var(--c-red-dim); color: var(--c-red); }
+.trend-warn { background: var(--c-amber-dim); color: var(--c-amber); }
+
+/* Market share bars */
+.share-bar-wrap { margin-top: 0.75rem; }
+.share-bar-bg {
+  height: 4px;
+  background: var(--c-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.share-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+}
+.fill-blue { background: linear-gradient(90deg, var(--c-blue), var(--c-cyan)); }
+.fill-red { background: linear-gradient(90deg, var(--c-red), #ff8c9e); }
+.fill-green { background: linear-gradient(90deg, var(--c-green), #00ffe0); }
+.fill-purple { background: linear-gradient(90deg, var(--c-purple), var(--c-cyan)); }
+
+/* ============================================================
+   COMPARISON TABLE
+   ============================================================ */
+.compare-table-wrap {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table thead tr {
+  background: var(--c-surface2);
+  border-bottom: 1px solid var(--c-border);
+}
+.compare-table th {
+  padding: 1.1rem 1.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: left;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+.compare-table th:first-child { color: var(--c-text); }
+.col-claro { color: var(--c-blue) !important; }
+.col-liberty { color: var(--c-red) !important; }
+.compare-table tbody tr {
+  border-bottom: 1px solid var(--c-border);
+  transition: background 0.2s;
+}
+.compare-table tbody tr:last-child { border-bottom: none; }
+.compare-table tbody tr:hover { background: var(--c-surface2); }
+.compare-table td {
+  padding: 1rem 1.5rem;
+  font-size: 0.88rem;
+  color: var(--c-text-muted);
+  vertical-align: middle;
+}
+.compare-table td:first-child {
+  font-weight: 500;
+  color: var(--c-text);
+  font-size: 0.9rem;
+}
+.status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.82rem; font-weight: 500;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+}
+.status-win { background: var(--c-green-dim); color: var(--c-green); }
+.status-lose { background: var(--c-red-dim); color: var(--c-red); }
+.status-warn { background: var(--c-amber-dim); color: var(--c-amber); }
+.status-neutral { background: rgba(255,255,255,0.06); color: var(--c-text-muted); }
+
+/* ============================================================
+   ADVANTAGE CARDS
+   ============================================================ */
+.cards-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.25rem;
+}
+.adv-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  position: relative; overflow: hidden;
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  cursor: default;
+}
+.adv-card:hover {
+  border-color: var(--c-border-em);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.adv-card.win-card:hover {
+  box-shadow: 0 20px 60px rgba(0,208,138,0.08);
+}
+.adv-card.risk-card:hover {
+  box-shadow: 0 20px 60px rgba(255,79,106,0.08);
+}
+.card-glow {
+  position: absolute; width: 200px; height: 200px;
+  border-radius: 50%;
+  filter: blur(60px);
+  top: -60px; right: -60px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.adv-card:hover .card-glow { opacity: 1; }
+.win-card .card-glow { background: rgba(0,208,138,0.15); }
+.risk-card .card-glow { background: rgba(255,79,106,0.15); }
+.card-icon-wrap {
+  width: 48px; height: 48px;
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.25rem;
+  font-size: 1.3rem;
+}
+.icon-win { background: var(--c-green-dim); }
+.icon-risk { background: var(--c-red-dim); }
+.card-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--c-text);
+  line-height: 1.3;
+}
+.card-body {
+  font-size: 0.88rem;
+  color: var(--c-text-muted);
+  line-height: 1.7;
+}
+.impact-bar {
+  margin-top: 1.25rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.impact-label {
+  font-size: 0.7rem;
+  color: var(--c-text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.impact-dots {
+  display: flex; gap: 4px;
+}
+.impact-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--c-border-em);
+}
+.impact-dot.active-win { background: var(--c-green); }
+.impact-dot.active-risk { background: var(--c-red); }
+
+/* ============================================================
+   SWOT & CHARTS SECTION
+   ============================================================ */
+.charts-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+@media(max-width:768px) { .charts-layout { grid-template-columns: 1fr; } }
+
+.chart-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+}
+.chart-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.chart-sub {
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* SWOT grid */
+.swot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+.swot-cell {
+  border-radius: var(--radius-md);
+  padding: 1rem;
+}
+.swot-s { background: rgba(0,208,138,0.08); border: 1px solid rgba(0,208,138,0.2); }
+.swot-w { background: rgba(255,79,106,0.08); border: 1px solid rgba(255,79,106,0.2); }
+.swot-o { background: rgba(46,127,255,0.08); border: 1px solid rgba(46,127,255,0.2); }
+.swot-t { background: rgba(255,179,64,0.08); border: 1px solid rgba(255,179,64,0.2); }
+.swot-head {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.swot-s .swot-head { color: var(--c-green); }
+.swot-w .swot-head { color: var(--c-red); }
+.swot-o .swot-head { color: var(--c-blue); }
+.swot-t .swot-head { color: var(--c-amber); }
+.swot-items { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.swot-items li {
+  font-size: 0.75rem;
+  color: var(--c-text-muted);
+  display: flex; align-items: flex-start; gap: 6px;
+}
+.swot-items li::before { content: '→'; flex-shrink: 0; font-size: 0.7rem; margin-top: 1px; }
+.swot-s .swot-items li::before { color: var(--c-green); }
+.swot-w .swot-items li::before { color: var(--c-red); }
+.swot-o .swot-items li::before { color: var(--c-blue); }
+.swot-t .swot-items li::before { color: var(--c-amber); }
+
+/* Radar chart (SVG) */
+.radar-wrap { display: flex; justify-content: center; }
+
+/* Market share horizontal bars */
+.mshare-list { display: flex; flex-direction: column; gap: 0.85rem; }
+.mshare-item {}
+.mshare-meta {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 6px;
+}
+.mshare-name {
+  font-size: 0.82rem; font-weight: 500; color: var(--c-text);
+}
+.mshare-pct {
+  font-family: var(--font-display);
+  font-size: 0.9rem; font-weight: 700;
+}
+.mshare-track {
+  height: 6px; border-radius: 6px;
+  background: var(--c-border);
+  overflow: hidden;
+}
+.mshare-fill {
+  height: 100%; border-radius: 6px;
+  width: 0;
+  transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ============================================================
+   STRATEGY SECTION
+   ============================================================ */
+.strategy-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 3rem;
+  align-items: start;
+}
+@media(max-width:768px) { .strategy-layout { grid-template-columns: 1fr; } }
+.strategy-tag {
+  display: inline-block;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--c-blue); margin-bottom: 1rem;
+}
+.strategy-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+}
+.strategy-quote {
+  font-size: 1.3rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--c-cyan);
+  border-left: 3px solid var(--c-cyan);
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  line-height: 1.5;
+}
+.strategy-body {
+  font-size: 0.9rem;
+  color: var(--c-text-muted);
+  line-height: 1.8;
+}
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.tl-item {
+  display: flex; gap: 1rem;
+  position: relative;
+}
+.tl-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 15px; top: 36px;
+  width: 1px; bottom: 0;
+  background: var(--c-border);
+}
+.tl-dot {
+  width: 31px; height: 31px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 700;
+  z-index: 1;
+}
+.tl-dot-blue { background: var(--c-blue-dim); color: var(--c-blue); border: 1px solid var(--c-blue-mid); }
+.tl-dot-cyan { background: var(--c-cyan-dim); color: var(--c-cyan); border: 1px solid rgba(0,207,221,0.3); }
+.tl-dot-purple { background: var(--c-purple-dim); color: var(--c-purple); border: 1px solid rgba(124,92,252,0.3); }
+.tl-dot-green { background: var(--c-green-dim); color: var(--c-green); border: 1px solid rgba(0,208,138,0.3); }
+.tl-content { padding-bottom: 2rem; }
+.tl-phase {
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+.tl-blue { color: var(--c-blue); }
+.tl-cyan { color: var(--c-cyan); }
+.tl-purple { color: var(--c-purple); }
+.tl-green { color: var(--c-green); }
+.tl-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem; font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+.tl-desc { font-size: 0.82rem; color: var(--c-text-muted); line-height: 1.6; }
+
+/* Pain points */
+.painpoints-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+.pp-card {
+  background: var(--c-surface2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+}
+.pp-emoji { font-size: 1.2rem; margin-bottom: 0.5rem; }
+.pp-title { font-size: 0.82rem; font-weight: 600; margin-bottom: 0.35rem; }
+.pp-body { font-size: 0.75rem; color: var(--c-text-muted); line-height: 1.5; }
+
+/* ============================================================
+   SOURCES
+   ============================================================ */
+.sources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.source-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s, background 0.2s;
+}
+.source-card:hover {
+  border-color: var(--c-border-em);
+  background: var(--c-surface2);
+  transform: translateY(-3px);
+}
+.source-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--c-blue-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+.source-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--c-text);
+}
+.source-desc { font-size: 0.8rem; color: var(--c-text-muted); }
+.source-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--c-blue);
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  border-top: 1px solid var(--c-border);
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--c-text-dim);
+}
+
+/* ============================================================
+   DIVIDER
+   ============================================================ */
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--c-border);
+  margin: 0;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:900px) {
+  .nav-links { display: none; }
+}
+@media(max-width:640px) {
+  .cards-grid-2 { grid-template-columns: 1fr; }
+  .painpoints-grid { grid-template-columns: 1fr; }
+  .swot-grid { grid-template-columns: 1fr; }
+  .metrics-grid { grid-template-columns: 1fr 1fr; }
+  .compare-table { font-size: 0.75rem; }
+  .compare-table td, .compare-table th { padding: 0.75rem 0.85rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">Telecoms Intelligence</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <span style="font-size:0.72rem;color:#3a4a6a;letter-spacing:0.15em;">INICIANDO ANÁLISIS...</span>
+</div>
+
+<!-- BACKGROUND EFFECTS -->
+<div class="grid-bg"></div>
+<div class="glow-orb orb-1"></div>
+<div class="glow-orb orb-2"></div>
+<div class="glow-orb orb-3"></div>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-dot"></div>
+    Claro Intelligence
+  </div>
+  <ul class="nav-links">
+    <li><a href="#ejecutivo">Ejecutivo</a></li>
+    <li><a href="#comparativa">Comparativa</a></li>
+    <li><a href="#ventajas">Ventajas</a></li>
+    <li><a href="#analisis">Análisis</a></li>
+    <li><a href="#estrategia">Estrategia</a></li>
+    <li><a href="#fuentes">Fuentes</a></li>
+    <li><a href="#paquete">Paquete Estrella</a></li>
+  </ul>
+  <a href="#estrategia" class="nav-cta">Ver Estrategia →</a>
+</nav>
+
+<div class="page">
+
+  <!-- ============================================================ HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow reveal">
+        <span class="label label-blue">Costa Rica</span>
+        <span class="hero-vs">TELECOM REPORT 2025–2026</span>
+        <span class="label label-red" style="background:var(--c-red-dim);color:var(--c-red);border-color:rgba(255,79,106,0.25);">Confidencial</span>
+      </div>
+      <h1 class="reveal reveal-delay-1">
+        Análisis Competitivo<br>
+        <span class="gradient">Claro vs Liberty</span><br>
+        Costa Rica
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        Oportunidades estratégicas para dominar el mercado FTTH.<br>
+        Inteligencia competitiva basada en datos SUTEL, nPerf y fuentes del sector.
+      </p>
+      <div class="hero-actions reveal reveal-delay-3">
+        <a href="#ejecutivo" class="btn-primary">Panel Ejecutivo ↓</a>
+        <a href="#comparativa" class="btn-outline">Ver Comparativa</a>
+      </div>
+      <div class="hero-scroll reveal reveal-delay-4">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ PANEL EJECUTIVO -->
+  <section class="section" id="ejecutivo" style="padding-top:3rem;">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="label label-cyan">Panel Ejecutivo</span>
+        <h2>Panorama del mercado</h2>
+        <p>Métricas clave del mercado de internet fijo en Costa Rica 2024–2026</p>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-card red reveal">
+          <span class="metric-trend trend-down">↓ Líder</span>
+          <div class="metric-label">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--c-red);flex-shrink:0;display:inline-block;"></span>
+            Liberty — Market Share
+          </div>
+          <div class="metric-value red" data-count="25.4" data-suffix="%">0%</div>
+          <div class="metric-sub">Internet fijo residencial (SUTEL 2024)</div>
+          <div class="share-bar-wrap">
+            <div class="share-bar-bg"><div class="share-bar-fill fill-red" data-width="25.4"></div></div>
+          </div>
+        </div>
+        <div class="metric-card blue reveal reveal-delay-1">
+          <span class="metric-trend trend-up">↑ Creciendo</span>
+          <div class="metric-label">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--c-blue);flex-shrink:0;display:inline-block;"></span>
+            Claro — Market Share
+          </div>
+          <div class="metric-value blue" data-count="8" data-suffix="%">0%</div>
+          <div class="metric-sub">Internet fijo residencial — en expansión</div>
+          <div class="share-bar-wrap">
+            <div class="share-bar-bg"><div class="share-bar-fill fill-blue" data-width="8"></div></div>
+          </div>
+        </div>
+        <div class="metric-card green reveal reveal-delay-2">
+          <span class="metric-trend trend-up">✓ Puro</span>
+          <div class="metric-label">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--c-green);flex-shrink:0;display:inline-block;"></span>
+            FTTH Claro — Pureza
+          </div>
+          <div class="metric-value green" data-count="100" data-suffix="%">0%</div>
+          <div class="metric-sub">100% Fibra óptica hasta el hogar. Cero coaxial.</div>
+          <div class="share-bar-wrap">
+            <div class="share-bar-bg"><div class="share-bar-fill fill-green" data-width="100"></div></div>
+          </div>
+        </div>
+        <div class="metric-card cyan reveal reveal-delay-3">
+          <span class="metric-trend trend-up">↑ Simétrico</span>
+          <div class="metric-label">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--c-cyan);flex-shrink:0;display:inline-block;"></span>
+            Velocidad máx. Claro
+          </div>
+          <div class="metric-value cyan" data-count="600" data-suffix=" Mbps">0 Mbps</div>
+          <div class="metric-sub">Velocidad simétrica — subida = bajada</div>
+          <div class="share-bar-wrap">
+            <div class="share-bar-bg"><div class="share-bar-fill fill-purple" data-width="90"></div></div>
+          </div>
+        </div>
+        <div class="metric-card amber reveal reveal-delay-4">
+          <span class="metric-trend trend-warn">⚠ Alza</span>
+          <div class="metric-label">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--c-amber);flex-shrink:0;display:inline-block;"></span>
+            Alza Liberty Feb 2026
+          </div>
+          <div class="metric-value amber" style="font-size:1.8rem;">₡1.550</div>
+          <div class="metric-sub">Aumento mensual aplicado en febrero 2026 — ventana de captación</div>
+        </div>
+        <div class="metric-card purple reveal reveal-delay-4">
+          <span class="metric-trend trend-up">🏆 Exclusivo</span>
+          <div class="metric-label">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--c-purple);flex-shrink:0;display:inline-block;"></span>
+            Precio entrada Claro
+          </div>
+          <div class="metric-value purple" style="font-size:1.8rem;">₡20.500</div>
+          <div class="metric-sub">Plan 150 Mbps con descuento — más bajo del mercado FTTH</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ============================================================ COMPARATIVA -->
+  <section class="section" id="comparativa">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="label label-purple">Comparativa Técnica</span>
+        <h2>Claro vs Liberty — Cara a cara</h2>
+        <p>Análisis punto a punto de los diferenciadores clave del mercado FTTH costarricense</p>
+      </div>
+      <div class="compare-table-wrap reveal">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Atributo</th>
+              <th class="col-claro">🔵 Claro CR</th>
+              <th class="col-liberty">🔴 Liberty CR</th>
+              <th>Ventaja</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tecnología red</td>
+              <td>100% Fibra Óptica (FTTH)</td>
+              <td>FTTH + Coaxial legacy</td>
+              <td><span class="status status-win">✅ Claro</span></td>
+            </tr>
+            <tr>
+              <td>Velocidad simétrica</td>
+              <td>150–600 Mbps simétrico</td>
+              <td>Asimétrica en zonas coaxial</td>
+              <td><span class="status status-win">✅ Claro</span></td>
+            </tr>
+            <tr>
+              <td>Precio de entrada</td>
+              <td>₡20.500/mes (150 Mbps)</td>
+              <td>Mayor + 2 alzas recientes</td>
+              <td><span class="status status-win">✅ Claro</span></td>
+            </tr>
+            <tr>
+              <td>IPTV integrada</td>
+              <td>Claro TV+ (100–140 canales)</td>
+              <td>Next TV (parcial coaxial)</td>
+              <td><span class="status status-win">✅ Claro</span></td>
+            </tr>
+            <tr>
+              <td>Champions League / UEFA</td>
+              <td>Claro Sport — incluido</td>
+              <td>No incluido en base</td>
+              <td><span class="status status-win">✅ Claro</span></td>
+            </tr>
+            <tr>
+              <td>Triple Play sin móvil</td>
+              <td>Flexible — sin permanencia</td>
+              <td>Atado a financiamiento 5G</td>
+              <td><span class="status status-win">✅ Claro</span></td>
+            </tr>
+            <tr>
+              <td>Red 5G residencial</td>
+              <td>No disponible aún</td>
+              <td>Lanzada en 2024</td>
+              <td><span class="status status-lose">❌ Liberty</span></td>
+            </tr>
+            <tr>
+              <td>Market share fijo</td>
+              <td>8%</td>
+              <td>25.4%</td>
+              <td><span class="status status-lose">❌ Liberty</span></td>
+            </tr>
+            <tr>
+              <td>Entretenimiento streaming</td>
+              <td>Claro Vídeo + Universal+</td>
+              <td>Disney+, HBO, Paramount+…</td>
+              <td><span class="status status-lose">❌ Liberty</span></td>
+            </tr>
+            <tr>
+              <td>Convergencia fija+móvil</td>
+              <td>En desarrollo</td>
+              <td>Liberty Total 5G (-35%)</td>
+              <td><span class="status status-warn">⚠ Liberty</span></td>
+            </tr>
+            <tr>
+              <td>Cobertura geográfica</td>
+              <td>En expansión</td>
+              <td>Histórica mayor cobertura</td>
+              <td><span class="status status-warn">⚠ Liberty</span></td>
+            </tr>
+            <tr>
+              <td>Estabilidad de precios</td>
+              <td>Sin alzas anunciadas</td>
+              <td>2 alzas consecutivas 2025–26</td>
+              <td><span class="status status-win">✅ Claro</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ============================================================ VENTAJAS CLARO -->
+  <section class="section" id="ventajas">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="label label-green">Fortalezas</span>
+        <h2>6 Ventajas de Claro sobre Liberty</h2>
+        <p>Los argumentos de venta más poderosos para ganar mercado FTTH en Costa Rica</p>
+      </div>
+      <div class="cards-grid-2">
+
+        <!-- 1 -->
+        <div class="adv-card win-card reveal">
+          <div class="card-glow"></div>
+          <div class="card-icon-wrap icon-win" style="font-size:1.5rem;">🔷</div>
+          <div class="card-header">
+            <div class="card-title">100% Fibra Óptica Pura (FTTH)</div>
+            <span class="label label-green" style="font-size:0.65rem;white-space:nowrap;">Infraestructura</span>
+          </div>
+          <div class="card-body">Claro opera exclusivamente con Fibra Óptica hasta el hogar. Liberty aún mezcla tecnologías — cable coaxial en zonas legacy — lo que degrada velocidad y estabilidad. FTTH simétrica es el argumento técnico más contundente.</div>
+          <div class="impact-bar">
+            <span class="impact-label">Impacto</span>
+            <div class="impact-dots">
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="adv-card win-card reveal reveal-delay-1">
+          <div class="card-glow"></div>
+          <div class="card-icon-wrap icon-win" style="font-size:1.5rem;">⚡</div>
+          <div class="card-header">
+            <div class="card-title">Velocidades Simétricas Reales</div>
+            <span class="label label-blue" style="font-size:0.65rem;white-space:nowrap;">Rendimiento</span>
+          </div>
+          <div class="card-body">Desde 150 hasta 600 Mbps simétrico — lo que subes es igual a lo que bajas. Además, Claro anunció incrementos automáticos de velocidad sin costo adicional para clientes existentes. Un argumento de valor concreto y diferenciador.</div>
+          <div class="impact-bar">
+            <span class="impact-label">Impacto</span>
+            <div class="impact-dots">
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="adv-card win-card reveal reveal-delay-2">
+          <div class="card-glow"></div>
+          <div class="card-icon-wrap icon-win" style="font-size:1.5rem;">💰</div>
+          <div class="card-header">
+            <div class="card-title">Precio de Entrada Más Bajo</div>
+            <span class="label label-cyan" style="font-size:0.65rem;white-space:nowrap;">Precio</span>
+          </div>
+          <div class="card-body">Plan desde ₡20.500 con descuento vs Liberty que subió precios hasta ₡1.550 adicionales en febrero 2026. Dos alzas consecutivas irritan a clientes existentes y crean una ventana de oportunidad directa para Claro.</div>
+          <div class="impact-bar">
+            <span class="impact-label">Impacto</span>
+            <div class="impact-dots">
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="adv-card win-card reveal reveal-delay-3">
+          <div class="card-glow"></div>
+          <div class="card-icon-wrap icon-win" style="font-size:1.5rem;">📺</div>
+          <div class="card-header">
+            <div class="card-title">IPTV Integrada sobre Fibra</div>
+            <span class="label label-purple" style="font-size:0.65rem;white-space:nowrap;">Entretenimiento</span>
+          </div>
+          <div class="card-body">Claro TV+ entrega 100–140 canales completamente sobre fibra óptica, sin interrupciones climáticas y con soporte Android OTT incluido. Liberty usa Next TV con dependencia parcial de infraestructura coaxial en zonas sin FTTH total.</div>
+          <div class="impact-bar">
+            <span class="impact-label">Impacto</span>
+            <div class="impact-dots">
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot"></div>
+              <div class="impact-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="adv-card win-card reveal">
+          <div class="card-glow"></div>
+          <div class="card-icon-wrap icon-win" style="font-size:1.5rem;">⚽</div>
+          <div class="card-header">
+            <div class="card-title">Claro Sport — UEFA incluido</div>
+            <span class="label label-amber" style="font-size:0.65rem;white-space:nowrap;">Diferenciador emocional</span>
+          </div>
+          <div class="card-body">Canal exclusivo con UEFA Champions League incluido en el paquete IPTV base. Para el tico fanático del fútbol europeo, este es el argumento emocional más poderoso y más difícil de ignorar en una demo de venta.</div>
+          <div class="impact-bar">
+            <span class="impact-label">Impacto</span>
+            <div class="impact-dots">
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="adv-card win-card reveal reveal-delay-1">
+          <div class="card-glow"></div>
+          <div class="card-icon-wrap icon-win" style="font-size:1.5rem;">🔓</div>
+          <div class="card-header">
+            <div class="card-title">Triple Play sin Celular Obligatorio</div>
+            <span class="label label-green" style="font-size:0.65rem;white-space:nowrap;">Flexibilidad</span>
+          </div>
+          <div class="card-body">Los paquetes de Claro no exigen contratar línea móvil. Liberty Total 5G ata permanencia al financiamiento de equipos, generando fricción y percepción de "trampa" en el cliente. Libertad sin ataduras es un argumento de cierre potente.</div>
+          <div class="impact-bar">
+            <span class="impact-label">Impacto</span>
+            <div class="impact-dots">
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot active-win"></div>
+              <div class="impact-dot"></div>
+              <div class="impact-dot"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ============================================================ DEBILIDADES -->
+  <section class="section" id="debilidades">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="label label-red">Áreas de Mejora</span>
+        <h2>6 Debilidades actuales de Claro</h2>
+        <p>Brechas estratégicas que el equipo comercial debe conocer y saber manejar en campo</p>
+      </div>
+      <div class="cards-grid-2">
+
+        <div class="adv-card risk-card reveal">
+          <div class="card-glow"></div>
+          <div class="card-icon-wrap icon-risk" style="font-size:1.5rem;">📊</div>
+          <div class="card-header">
+            <div class="card-title">Solo 8% de Market Share</div>
+            <span class="label label-red" style="font-size:0.65rem;white-space:nowrap;">Posicionamiento</span>
+          </div>
+          <div class="card-body">Frente al 25.4% de Liberty, la baja participación genera menor credibilidad de marca en clientes no informados. Requiere estrategia de testimonios, casos de éxito y prueba social agresiva en zonas de expansión.</div>
+          <div class="impact-bar">
+            <span class="impact-label">Riesgo</span>
+            <div class="impact-dots">
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="adv-card risk-card reveal reveal-delay-1">
+          <div class="card-glow"></div>
+          <div class="card-icon-wrap icon-risk" style="font-size:1.5rem;">📱</div>
+          <div class="card-header">
+            <div class="card-title">Sin Convergencia Móvil Fuerte</div>
+            <span class="label label-amber" style="font-size:0.65rem;white-space:nowrap;">Producto</span>
+          </div>
+          <div class="card-body">Liberty ofrece convergencia fija+5G con descuento del 35% en Liberty Total. Claro lidera en velocidad 4G (55.1 Mbps) pero no tiene un paquete convergente atractivo para el hogar que compita directamente.</div>
+          <div class="impact-bar">
+            <span class="impact-label">Riesgo</span>
+            <div class="impact-dots">
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="adv-card risk-card reveal reveal-delay-2">
+          <div class="card-glow"></div>
+          <div class="card-icon-wrap icon-risk" style="font-size:1.5rem;">🗺️</div>
+          <div class="card-header">
+            <div class="card-title">Cobertura Geográfica Limitada</div>
+            <span class="label label-red" style="font-size:0.65rem;white-space:nowrap;">Alcance</span>
+          </div>
+          <div class="card-body">Liberty y Kölbi tienen mayor cobertura histórica. Si el prospecto vive a más de 100 m del NAP de Claro, la venta se pierde. Mapear zonas de cobertura real antes de cada campaña es crítico.</div>
+          <div class="impact-bar">
+            <span class="impact-label">Riesgo</span>
+            <div class="impact-dots">
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="adv-card risk-card reveal reveal-delay-3">
+          <div class="card-glow"></div>
+          <div class="card-icon-wrap icon-risk" style="font-size:1.5rem;">📡</div>
+          <div class="card-header">
+            <div class="card-title">Sin 5G Residencial</div>
+            <span class="label label-amber" style="font-size:0.65rem;white-space:nowrap;">Tecnología</span>
+          </div>
+          <div class="card-body">Liberty lanzó la primera red 5G en Costa Rica en 2024. Claro no tiene oferta 5G residencial hoy, lo que en segmentos tech-savvy puede ser una objeción. Requiere contra-argumento claro: "FTTH simétrico supera 5G en hogar".</div>
+          <div class="impact-bar">
+            <span class="impact-label">Riesgo</span>
+            <div class="impact-dots">
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot"></div>
+              <div class="impact-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="adv-card risk-card reveal">
+          <div class="card-glow"></div>
+          <div class="card-icon-wrap icon-risk" style="font-size:1.5rem;">🎬</div>
+          <div class="card-header">
+            <div class="card-title">Menor Catálogo Entretenimiento</div>
+            <span class="label label-red" style="font-size:0.65rem;white-space:nowrap;">Contenido</span>
+          </div>
+          <div class="card-body">Liberty incluye Disney+, Paramount+, Universal+, HBO Max y Atresplayer. Claro ofrece Claro Vídeo, Atresplayer y Universal+, sin Disney+ ni Paramount+. En familias con niños, esta brecha puede ser decisiva.</div>
+          <div class="impact-bar">
+            <span class="impact-label">Riesgo</span>
+            <div class="impact-dots">
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot"></div>
+              <div class="impact-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="adv-card risk-card reveal reveal-delay-1">
+          <div class="card-glow"></div>
+          <div class="card-icon-wrap icon-risk" style="font-size:1.5rem;">📈</div>
+          <div class="card-header">
+            <div class="card-title">Menor Percepción de Calidad SUTEL</div>
+            <span class="label label-amber" style="font-size:0.65rem;white-space:nowrap;">Reputación</span>
+          </div>
+          <div class="card-body">El informe SUTEL 2024 posiciona a Telecable con mejor desempeño y nPerf 2025 confirma mayores velocidades. Claro aparece por debajo en rankings externos, complicando el argumento ante clientes informados que investigan antes de comprar.</div>
+          <div class="impact-bar">
+            <span class="impact-label">Riesgo</span>
+            <div class="impact-dots">
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot active-risk"></div>
+              <div class="impact-dot"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ============================================================ ANÁLISIS DINÁMICO -->
+  <section class="section" id="analisis">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="label label-purple">Inteligencia Estratégica</span>
+        <h2>Análisis SWOT + Participación de Mercado</h2>
+        <p>Herramientas de diagnóstico para el equipo directivo y comercial</p>
+      </div>
+      <div class="charts-layout">
+
+        <!-- SWOT -->
+        <div class="chart-card reveal">
+          <div class="chart-title">Análisis SWOT — Claro Costa Rica</div>
+          <div class="chart-sub">Matriz estratégica basada en datos del mercado FTTH 2024–2026</div>
+          <div class="swot-grid">
+            <div class="swot-cell swot-s">
+              <div class="swot-head">Fortalezas</div>
+              <ul class="swot-items">
+                <li>FTTH 100% puro, sin coaxial</li>
+                <li>Velocidad simétrica real</li>
+                <li>Champions League exclusivo</li>
+                <li>Precio de entrada competitivo</li>
+                <li>Sin permanencia atada</li>
+              </ul>
+            </div>
+            <div class="swot-cell swot-w">
+              <div class="swot-head">Debilidades</div>
+              <ul class="swot-items">
+                <li>Solo 8% market share</li>
+                <li>Sin 5G residencial</li>
+                <li>Cobertura limitada</li>
+                <li>Sin Disney+ ni Paramount+</li>
+                <li>Menor visibilidad SUTEL</li>
+              </ul>
+            </div>
+            <div class="swot-cell swot-o">
+              <div class="swot-head">Oportunidades</div>
+              <ul class="swot-items">
+                <li>Alzas Liberty = clientes molestos</li>
+                <li>Zonas nuevas sin FTTH rival</li>
+                <li>Segmento trabajo remoto</li>
+                <li>Expansión con FTTH directo</li>
+                <li>Convergencia fija+móvil futura</li>
+              </ul>
+            </div>
+            <div class="swot-cell swot-t">
+              <div class="swot-head">Amenazas</div>
+              <ul class="swot-items">
+                <li>Liberty Total 5G convergente</li>
+                <li>Kölbi como tercera opción</li>
+                <li>Percepción marca débil</li>
+                <li>Expansión 5G de Liberty 2026</li>
+                <li>Ranking SUTEL desfavorable</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Market Share Bars -->
+        <div class="chart-card reveal reveal-delay-1">
+          <div class="chart-title">Participación de Mercado — Internet Fijo CR</div>
+          <div class="chart-sub">Cuotas estimadas 2024 (fuente: SUTEL / El Financiero)</div>
+          <div class="mshare-list" id="mshare-list">
+            <div class="mshare-item">
+              <div class="mshare-meta">
+                <span class="mshare-name">🔴 Liberty</span>
+                <span class="mshare-pct" style="color:var(--c-red);">25.4%</span>
+              </div>
+              <div class="mshare-track"><div class="mshare-fill fill-red" data-width="25.4" style="width:0;max-width:100%;"></div></div>
+            </div>
+            <div class="mshare-item">
+              <div class="mshare-meta">
+                <span class="mshare-name">🟡 Kölbi (ICE)</span>
+                <span class="mshare-pct" style="color:var(--c-amber);">~22%</span>
+              </div>
+              <div class="mshare-track"><div class="mshare-fill" style="background:linear-gradient(90deg,var(--c-amber),#ffd47a);width:0;max-width:100%;height:100%;border-radius:6px;" data-width="22"></div></div>
+            </div>
+            <div class="mshare-item">
+              <div class="mshare-meta">
+                <span class="mshare-name">⚪ Telecable</span>
+                <span class="mshare-pct" style="color:var(--c-text-muted);">~18%</span>
+              </div>
+              <div class="mshare-track"><div class="mshare-fill" style="background:linear-gradient(90deg,#4a5a7a,#6b7a9a);width:0;max-width:100%;height:100%;border-radius:6px;" data-width="18"></div></div>
+            </div>
+            <div class="mshare-item">
+              <div class="mshare-meta">
+                <span class="mshare-name">🟣 Otros ISPs</span>
+                <span class="mshare-pct" style="color:var(--c-purple);">~26.6%</span>
+              </div>
+              <div class="mshare-track"><div class="mshare-fill fill-purple" data-width="26.6" style="width:0;max-width:100%;"></div></div>
+            </div>
+            <div class="mshare-item" style="border-top:1px solid var(--c-border);padding-top:0.85rem;margin-top:0.25rem;">
+              <div class="mshare-meta">
+                <span class="mshare-name" style="color:var(--c-blue);font-weight:700;">🔵 Claro — OBJETIVO</span>
+                <span class="mshare-pct" style="color:var(--c-blue);">8%</span>
+              </div>
+              <div class="mshare-track"><div class="mshare-fill fill-blue" data-width="8" style="width:0;max-width:100%;"></div></div>
+            </div>
+          </div>
+          <div style="margin-top:1.5rem;padding:1rem;background:var(--c-blue-dim);border:1px solid var(--c-blue-mid);border-radius:var(--radius-md);">
+            <div style="font-size:0.78rem;color:var(--c-text-muted);margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;">Oportunidad de crecimiento</div>
+            <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--c-blue);">+17.4 pp</div>
+            <div style="font-size:0.78rem;color:var(--c-text-muted);">Diferencia a capturar vs Liberty — mercado abierto</div>
+          </div>
+        </div>
+
+        <!-- Radar SVG Chart -->
+        <div class="chart-card reveal" style="grid-column: 1 / -1;">
+          <div class="chart-title">Radar Competitivo — Claro vs Liberty</div>
+          <div class="chart-sub">Puntuación normalizada 0–10 por dimensión estratégica</div>
+          <div class="radar-wrap">
+            <svg id="radar-svg" viewBox="0 0 500 400" width="100%" style="max-width:600px;"></svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ============================================================ ESTRATEGIA -->
+  <section class="section" id="estrategia">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="label label-cyan">Estrategia Recomendada</span>
+        <h2>Plan para ganar mercado</h2>
+        <p>Hoja de ruta comercial basada en los puntos débiles de Liberty y las fortalezas FTTH de Claro</p>
+      </div>
+      <div class="strategy-layout">
+        <div class="reveal">
+          <div class="strategy-tag">Posicionamiento Central</div>
+          <div class="strategy-title">Atacar donde duele más a Liberty</div>
+          <div class="strategy-quote">"Fibra pura, precio justo, sin sorpresas."</div>
+          <div class="strategy-body">
+            El ángulo más poderoso es atacar precio + fidelidad. Liberty sube precios dos veces al año y ata contratos. Claro puede posicionarse como la alternativa transparente — especialmente en zonas de expansión nueva donde Liberty llega con coaxial viejo y Claro llega directo con FTTH puro.
+            <br><br>
+            El cliente de Liberty está frustrado. Ese cliente es tu mejor prospecto. La estrategia es capturar el dolor de la alza de ₡1.550 con un mensaje claro: fibra real, precio que no sube, y fútbol incluido.
+          </div>
+          <div class="painpoints-grid">
+            <div class="pp-card">
+              <div class="pp-emoji">😤</div>
+              <div class="pp-title">Alza de precios Liberty</div>
+              <div class="pp-body">2 alzas en 2025–26 generan frustración masiva. Ventana de 6 meses para captar churners.</div>
+            </div>
+            <div class="pp-card">
+              <div class="pp-emoji">🔗</div>
+              <div class="pp-title">Permanencia atada 5G</div>
+              <div class="pp-body">Clientes sienten que los "trampearon". Mensaje Claro: "sin compromiso, sin sorpresas".</div>
+            </div>
+            <div class="pp-card">
+              <div class="pp-emoji">📶</div>
+              <div class="pp-title">Coaxial degradado</div>
+              <div class="pp-body">Zonas legacy con velocidades asimétricas. FTTH puro de Claro es la respuesta técnica.</div>
+            </div>
+            <div class="pp-card">
+              <div class="pp-emoji">⚽</div>
+              <div class="pp-title">Sin Champions League</div>
+              <div class="pp-body">El tico fanático quiere la Champions. Claro la incluye. Liberty no. Argumento de cierre.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal reveal-delay-2">
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot tl-dot-blue">1</div>
+              <div class="tl-content">
+                <div class="tl-phase tl-blue">Fase 1 — Inmediato (0–3 meses)</div>
+                <div class="tl-title">Capturar el churn de Liberty</div>
+                <div class="tl-desc">Activar campaña directa en zonas donde Liberty tiene coaxial. Mensaje: "Harta del alza? Cambia a FTTH puro." Precio garantizado sin sorpresas. Fútbol incluido.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot tl-dot-cyan">2</div>
+              <div class="tl-content">
+                <div class="tl-phase tl-cyan">Fase 2 — Corto plazo (3–6 meses)</div>
+                <div class="tl-title">Conquista de zonas FTTH nuevas</div>
+                <div class="tl-desc">En cada barrio donde Claro instala fibra nueva y Liberty llega con coaxial, Claro tiene ventaja absoluta de producto. Evangelizar la diferencia FTTH vs coaxial a nivel de comunidad.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot tl-dot-purple">3</div>
+              <div class="tl-content">
+                <div class="tl-phase tl-purple">Fase 3 — Mediano plazo (6–12 meses)</div>
+                <div class="tl-title">Construir prueba social y reputación</div>
+                <div class="tl-desc">Testimonios en video de clientes que migraron desde Liberty. Casos de éxito en home office, gaming, streaming 4K. Atacar rankings de calidad con datos reales de velocidad.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot tl-dot-green">4</div>
+              <div class="tl-content">
+                <div class="tl-phase tl-green">Fase 4 — Largo plazo (12–24 meses)</div>
+                <div class="tl-title">Convergencia fija+móvil propia</div>
+                <div class="tl-desc">Desarrollar y lanzar paquete convergente fija+4G Claro con descuento. Competir directamente contra Liberty Total 5G con propuesta de valor superior en fibra.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ============================================================ FUENTES -->
+  <section class="section" id="fuentes">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="label label-blue">Referencias</span>
+        <h2>Fuentes del análisis</h2>
+        <p>Datos primarios de organismos reguladores y medios especializados de Costa Rica</p>
+      </div>
+      <div class="sources-grid">
+        <a href="https://sutel.go.cr/noticias/comunicados-de-prensa/fibra-optica-domina-el-mercado-de-internet-fijo" target="_blank" rel="noopener" class="source-card reveal">
+          <div class="source-icon">🏛️</div>
+          <div>
+            <div class="source-name">SUTEL Costa Rica</div>
+            <div class="source-desc">Fibra óptica domina el mercado de internet fijo — datos regulatorios oficiales 2024</div>
+          </div>
+          <div class="source-link">Abrir fuente →</div>
+        </a>
+        <a href="https://www.elfinancierocr.com/tecnologia/quien-es-quien-en-internet-fijo-para-las-viviendas/AOV6ZA2GXJGGXITHBMBAQDJUFU/story/" target="_blank" rel="noopener" class="source-card reveal reveal-delay-1">
+          <div class="source-icon">📰</div>
+          <div>
+            <div class="source-name">El Financiero CR</div>
+            <div class="source-desc">Quién es quién en internet fijo para las viviendas — cuotas de mercado y actores</div>
+          </div>
+          <div class="source-link">Abrir fuente →</div>
+        </a>
+        <a href="https://www.elfinancierocr.com/tecnologia/liberty-proyecta-expansion-de-red-5g-para-2026/A7P4O5IAKRGFTMZ7NTT2PWZSPA/story/" target="_blank" rel="noopener" class="source-card reveal reveal-delay-2">
+          <div class="source-icon">📡</div>
+          <div>
+            <div class="source-name">El Financiero — 5G</div>
+            <div class="source-desc">Liberty proyecta expansión de red 5G para 2026 — planes y cobertura</div>
+          </div>
+          <div class="source-link">Abrir fuente →</div>
+        </a>
+        <a href="https://www.elfinancierocr.com/tecnologia/ganadores-y-perdedores-en-internet-fijo-y-movil-en/KE44P26ASNHCVBZCNEZCKRGFE4/story/" target="_blank" rel="noopener" class="source-card reveal reveal-delay-3">
+          <div class="source-icon">🏆</div>
+          <div>
+            <div class="source-name">nPerf / El Financiero</div>
+            <div class="source-desc">Ganadores y perdedores en internet fijo y móvil en CR — rankings de velocidad 2025</div>
+          </div>
+          <div class="source-link">Abrir fuente →</div>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- ============================================================ NUEVO PAQUETE ESTRELLA -->
+<hr class="section-divider">
+
+<section class="section" id="paquete">
+  <div class="container">
+
+    <div class="sec-header reveal">
+      <span class="label label-cyan">Propuesta Estratégica</span>
+      <h2>Claro Infinito — El Paquete Estrella</h2>
+      <p>Diseñado para destruir la propuesta de valor de Liberty y conquistar el mercado FTTH costarricense</p>
+    </div>
+
+    <!-- POSICIONAMIENTO CENTRAL -->
+    <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-xl);padding:2.5rem;margin-bottom:2rem;position:relative;overflow:hidden;" class="reveal">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c-blue),var(--c-cyan),var(--c-purple));"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;text-align:center;">
+        <div>
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:0.5rem;">Nombre</div>
+          <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--c-cyan);letter-spacing:-0.02em;">Claro Infinito</div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:0.5rem;">Slogan</div>
+          <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--c-text);font-style:italic;">"Tu fibra. Tu precio. Siempre."</div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:0.5rem;">Posicionamiento</div>
+          <div style="font-size:0.9rem;color:var(--c-text-muted);line-height:1.5;">Anti-sorpresas. Anti-ataduras. Pro-fibra real.</div>
+        </div>
+      </div>
+      <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--c-border);font-size:0.9rem;color:var(--c-text-muted);text-align:center;line-height:1.7;">
+        Inspirado en el modelo psicológico de <strong style="color:var(--c-text);">Amazon Prime</strong> (valor acumulado irracionalmente alto), la transparencia de precio de <strong style="color:var(--c-text);">T-Mobile</strong> y la fidelización ecosistémica de <strong style="color:var(--c-text);">Apple</strong>. Un paquete que se siente como un derecho, no como un gasto.
+      </div>
+    </div>
+
+    <!-- ANÁLISIS DEL CLIENTE TICO -->
+    <div style="margin-bottom:2rem;" class="reveal">
+      <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin-bottom:1rem;color:var(--c-text);">Psicología del cliente tico — Qué quiere realmente</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+
+        <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:1.2rem;margin-bottom:0.5rem;">😤</div>
+          <div style="font-size:0.85rem;font-weight:600;color:var(--c-text);margin-bottom:0.35rem;">Odia las sorpresas en la factura</div>
+          <div style="font-size:0.78rem;color:var(--c-text-muted);line-height:1.6;">Liberty subió ₡1.550 sin avisar. El tico percibe esto como una traición. El miedo a que el precio cambie es más doloroso que el precio mismo.</div>
+        </div>
+
+        <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:1.2rem;margin-bottom:0.5rem;">⚽</div>
+          <div style="font-size:0.85rem;font-weight:600;color:var(--c-text);margin-bottom:0.35rem;">El fútbol es una religión</div>
+          <div style="font-size:0.78rem;color:var(--c-text-muted);line-height:1.6;">Champions League no es entretenimiento — es identidad social. El que tiene la Champions en casa es el que invita a los amigos. Argumento de viralidad orgánica.</div>
+        </div>
+
+        <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:1.2rem;margin-bottom:0.5rem;">🏠</div>
+          <div style="font-size:0.85rem;font-weight:600;color:var(--c-text);margin-bottom:0.35rem;">El hogar es su inversión</div>
+          <div style="font-size:0.78rem;color:var(--c-text-muted);line-height:1.6;">El tico de clase media/alta en urbanización nueva quiere tecnología de primer mundo. FTTH puro es un símbolo de status — "tengo fibra de verdad".</div>
+        </div>
+
+        <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:1.2rem;margin-bottom:0.5rem;">💼</div>
+          <div style="font-size:0.85rem;font-weight:600;color:var(--c-text);margin-bottom:0.35rem;">Trabaja desde casa</div>
+          <div style="font-size:0.78rem;color:var(--c-text-muted);line-height:1.6;">Post-pandemia, el teletrabajo es permanente para muchos. Velocidad simétrica real = productividad = ingreso. La fibra es su herramienta de trabajo, no solo entretenimiento.</div>
+        </div>
+
+        <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:1.2rem;margin-bottom:0.5rem;">🔗</div>
+          <div style="font-size:0.85rem;font-weight:600;color:var(--c-text);margin-bottom:0.35rem;">Odia las ataduras contractuales</div>
+          <div style="font-size:0.78rem;color:var(--c-text-muted);line-height:1.6;">Liberty ata su 5G a financiamiento de equipos. El tico se siente "trampeado". La promesa de libertad contractual es un diferenciador emocional crítico.</div>
+        </div>
+
+        <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:1.2rem;margin-bottom:0.5rem;">👨‍👩‍👧‍👦</div>
+          <div style="font-size:0.85rem;font-weight:600;color:var(--c-text);margin-bottom:0.35rem;">Decide por la familia, no solo por él</div>
+          <div style="font-size:0.78rem;color:var(--c-text-muted);line-height:1.6;">Los hijos necesitan gaming y streaming. La esposa, videoconferencias estables. El papá, fútbol. Un paquete familiar integral tiene mayor poder de decisión que uno individual.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 3 VERSIONES DEL PAQUETE -->
+    <div class="reveal" style="margin-bottom:2rem;">
+      <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin-bottom:1rem;color:var(--c-text);">Arquitectura del producto — 3 versiones</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;">
+
+        <!-- BÁSICO -->
+        <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:1.75rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--c-text-dim);"></div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+            <div>
+              <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:0.25rem;">Básico</div>
+              <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--c-text);">Claro Infinito Uno</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--c-text);">₡18.900</div>
+              <div style="font-size:0.72rem;color:var(--c-text-muted);">/mes · precio fijo 12 meses</div>
+            </div>
+          </div>
+          <div style="background:var(--c-surface2);border-radius:var(--radius-md);padding:1rem;margin-bottom:1rem;">
+            <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--c-cyan);text-align:center;">200 Mbps</div>
+            <div style="font-size:0.72rem;color:var(--c-text-muted);text-align:center;">Simétrico · subida = bajada</div>
+          </div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> IPTV base — 100 canales en fibra</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> Claro Sport — Champions League</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> Precio garantizado 12 meses</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> Upgrade automático de velocidad a 300 Mbps al año 2</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> Sin permanencia obligatoria</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-blue);flex-shrink:0;">+</span> Beneficio oculto: WiFi extenders sin costo en instalación</li>
+          </ul>
+          <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--c-border);font-size:0.75rem;color:var(--c-text-dim);">Target: solteros, parejas sin hijos, adultos mayores</div>
+        </div>
+
+        <!-- PREMIUM -->
+        <div style="background:var(--c-surface);border:2px solid var(--c-blue);border-radius:var(--radius-lg);padding:1.75rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c-blue),var(--c-cyan));"></div>
+          <div style="position:absolute;top:1rem;right:1rem;">
+            <span style="background:var(--c-blue-dim);color:var(--c-blue);border:1px solid var(--c-blue-mid);font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:100px;">Más popular</span>
+          </div>
+          <div style="margin-bottom:1rem;">
+            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-blue);margin-bottom:0.25rem;">Premium</div>
+            <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--c-text);">Claro Infinito Pro</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+            <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--c-blue);">₡28.900</div>
+            <div style="font-size:0.72rem;color:var(--c-text-muted);">/mes · precio fijo 18 meses</div>
+          </div>
+          <div style="background:var(--c-blue-dim);border:1px solid var(--c-blue-mid);border-radius:var(--radius-md);padding:1rem;margin-bottom:1rem;">
+            <div style="font-family:var(--font-display);font-size:2.2rem;font-weight:800;color:var(--c-blue);text-align:center;">400 Mbps</div>
+            <div style="font-size:0.72rem;color:var(--c-blue);text-align:center;opacity:0.7;">Simétrico · para 8+ dispositivos simultáneos</div>
+          </div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> IPTV Pro — 140 canales + Android OTT</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> Claro Sport + Liga Nacional</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> Universal+ y Claro Vídeo incluido</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> Gaming Mode — QoS prioritario para consolas y PC</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> Precio fijo garantizado 18 meses</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> Upgrade automático a 600 Mbps al año 2</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-blue);flex-shrink:0;">+</span> Beneficio oculto: router Mesh premium incluido (valor ₡60.000)</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-blue);flex-shrink:0;">+</span> Beneficio oculto: antivirus familiar 5 dispositivos</li>
+          </ul>
+          <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--c-border-em);font-size:0.75rem;color:var(--c-text-dim);">Target: familias, teletrabajadores, gamers</div>
+        </div>
+
+        <!-- ULTRA -->
+        <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:1.75rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c-purple),var(--c-cyan));"></div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+            <div>
+              <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-purple);margin-bottom:0.25rem;">Ultra</div>
+              <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--c-text);">Claro Infinito Max</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--c-purple);">₡42.900</div>
+              <div style="font-size:0.72rem;color:var(--c-text-muted);">/mes · precio fijo 24 meses</div>
+            </div>
+          </div>
+          <div style="background:var(--c-purple-dim);border:1px solid rgba(124,92,252,0.25);border-radius:var(--radius-md);padding:1rem;margin-bottom:1rem;">
+            <div style="font-family:var(--font-display);font-size:2.2rem;font-weight:800;color:var(--c-purple);text-align:center;">600 Mbps</div>
+            <div style="font-size:0.72rem;color:var(--c-purple);text-align:center;opacity:0.7;">Simétrico · multi-hogar · sin límite de dispositivos</div>
+          </div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> Todo lo del Pro +</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> IP fija dedicada para trabajo remoto profesional</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> SLA de 99.5% uptime garantizado</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> Soporte prioritario 24/7 técnico en hogar</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> Sistema domótica básica (IoT ready)</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-green);flex-shrink:0;">✓</span> 2 líneas móviles básicas SIM datos incluidas</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-purple);flex-shrink:0;">★</span> Beneficio oculto: acceso beta productos Claro nuevos</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--c-purple);flex-shrink:0;">★</span> Beneficio oculto: descuento 20% futuro 5G Claro</li>
+          </ul>
+          <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--c-border);font-size:0.75rem;color:var(--c-text-dim);">Target: profesionales, ejecutivos, casas inteligentes, alto valor</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TABLA COMPARATIVA vs LIBERTY -->
+    <div class="reveal" style="margin-bottom:2rem;">
+      <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin-bottom:1rem;color:var(--c-text);">¿Por qué el cliente cambiaría de Liberty a Claro Infinito?</div>
+      <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);overflow:hidden;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+          <thead>
+            <tr style="background:var(--c-surface2);border-bottom:1px solid var(--c-border);">
+              <th style="padding:1rem 1.25rem;text-align:left;font-weight:600;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--c-text-muted);">Trigger de cambio</th>
+              <th style="padding:1rem 1.25rem;text-align:left;font-weight:600;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--c-red);">Liberty — dolor actual</th>
+              <th style="padding:1rem 1.25rem;text-align:left;font-weight:600;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--c-blue);">Claro Infinito — solución</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--c-border);">
+              <td style="padding:0.9rem 1.25rem;font-weight:500;color:var(--c-text);">Precio inesperado</td>
+              <td style="padding:0.9rem 1.25rem;color:var(--c-text-muted);">Alzas de ₡1.550 sin previo aviso en 2026</td>
+              <td style="padding:0.9rem 1.25rem;color:var(--c-green);">Precio congelado 12–24 meses. Escrito en el contrato.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c-border);">
+              <td style="padding:0.9rem 1.25rem;font-weight:500;color:var(--c-text);">Tecnología inferior</td>
+              <td style="padding:0.9rem 1.25rem;color:var(--c-text-muted);">Coaxial en zonas legacy — velocidad asimétrica</td>
+              <td style="padding:0.9rem 1.25rem;color:var(--c-green);">FTTH 100% puro — 400 Mbps simétrico real</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c-border);">
+              <td style="padding:0.9rem 1.25rem;font-weight:500;color:var(--c-text);">Atadura contractual</td>
+              <td style="padding:0.9rem 1.25rem;color:var(--c-text-muted);">Financiamiento 5G = permanencia forzada</td>
+              <td style="padding:0.9rem 1.25rem;color:var(--c-green);">Sin permanencia. Si no estás feliz, te vas.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c-border);">
+              <td style="padding:0.9rem 1.25rem;font-weight:500;color:var(--c-text);">Fútbol europeo</td>
+              <td style="padding:0.9rem 1.25rem;color:var(--c-text-muted);">Champions League no incluida en plan base</td>
+              <td style="padding:0.9rem 1.25rem;color:var(--c-green);">Claro Sport con UEFA incluido desde el primer día</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c-border);">
+              <td style="padding:0.9rem 1.25rem;font-weight:500;color:var(--c-text);">Velocidad real</td>
+              <td style="padding:0.9rem 1.25rem;color:var(--c-text-muted);">Prometen X, entregan X/3 en hora pico</td>
+              <td style="padding:0.9rem 1.25rem;color:var(--c-green);">SLA de velocidad mínima garantizada en contrato</td>
+            </tr>
+            <tr>
+              <td style="padding:0.9rem 1.25rem;font-weight:500;color:var(--c-text);">Sensación de valor</td>
+              <td style="padding:0.9rem 1.25rem;color:var(--c-text-muted);">Pack 5G que pagás aunque no lo usés bien</td>
+              <td style="padding:0.9rem 1.25rem;color:var(--c-green);">Upgrade automático de velocidad sin costo — valor creciente</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ESTRATEGIA DE MARKETING -->
+    <div class="reveal" style="margin-bottom:2rem;">
+      <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin-bottom:1rem;color:var(--c-text);">Estrategia de Marketing — Mensajes y Canales</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;">
+
+        <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-blue);margin-bottom:0.75rem;">📱 TikTok Hooks (primeros 2 seg)</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.6rem;">
+            <li style="font-size:0.82rem;color:var(--c-text-muted);padding:0.5rem;background:var(--c-surface2);border-radius:var(--radius-sm);">"¿Liberty te subió el precio OTRA VEZ? Mirá esto..."</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);padding:0.5rem;background:var(--c-surface2);border-radius:var(--radius-sm);">"Yo pagaba ₡35.000 por internet lento. Ahora pago menos y tengo Champions."</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);padding:0.5rem;background:var(--c-surface2);border-radius:var(--radius-sm);">"Tu internet tiene coaxial o tiene fibra DE VERDAD? Hay diferencia."</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);padding:0.5rem;background:var(--c-surface2);border-radius:var(--radius-sm);">"Hice un speedtest a las 8pm y quedé loco. Les muestro."</li>
+          </ul>
+        </div>
+
+        <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-purple);margin-bottom:0.75rem;">📣 Facebook Ads — Copy</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.6rem;">
+            <li style="font-size:0.82rem;color:var(--c-text-muted);padding:0.5rem;background:var(--c-surface2);border-radius:var(--radius-sm);">"Liberty subió precios. Nosotros los congelamos. Claro Infinito Pro — ₡28.900 fijo por 18 meses. SIN SORPRESAS."</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);padding:0.5rem;background:var(--c-surface2);border-radius:var(--radius-sm);">"Fibra real = 400 Mbps de subida Y bajada. No cable disfrazado de fibra. Claro FTTH."</li>
+            <li style="font-size:0.82rem;color:var(--c-text-muted);padding:0.5rem;background:var(--c-surface2);border-radius:var(--radius-sm);">"Champions League, Gaming Mode y precio fijo. Todo en un paquete. Sin contratos trampa."</li>
+          </ul>
+        </div>
+
+        <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-cyan);margin-bottom:0.75rem;">🏆 Storytelling emocional</div>
+          <div style="font-size:0.82rem;color:var(--c-text-muted);line-height:1.7;">
+            Historia protagonista: <strong style="color:var(--c-text);">Carlos, 38 años, Escazú.</strong> Teletrabajador con 3 hijos. Harto de que Liberty le falle en las videoconferencias. Migra a Claro Infinito Pro. Su speed test en vivo. Sus hijos jugando sin lag. El partido de Champions sin cortes. "Ya no sudo en las llamadas de trabajo." — Este contenido se vuelve viral porque es la vida real de miles de ticos.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- GUERRA COMERCIAL -->
+    <div class="reveal" style="margin-bottom:2rem;">
+      <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin-bottom:1rem;color:var(--c-text);">Estrategia de Guerra Comercial</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+
+        <div style="background:var(--c-red-dim);border:1px solid rgba(255,79,106,0.25);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-red);margin-bottom:0.6rem;">⚔ Atacar zonas coaxial Liberty</div>
+          <div style="font-size:0.8rem;color:var(--c-text-muted);line-height:1.6;">Mapear georeferenciadamente cada zona donde Liberty opera con coaxial. Desplegar equipos de campo con speedtesters. Demostración en vivo en la puerta del cliente: "Mirá tu velocidad real. Mirá la nuestra." Campaña de vecindario — una cuadra completa convertida en zona Claro FTTH.</div>
+        </div>
+
+        <div style="background:var(--c-amber-dim);border:1px solid rgba(255,179,64,0.25);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-amber);margin-bottom:0.6rem;">💰 Atacar las alzas de precios</div>
+          <div style="font-size:0.8rem;color:var(--c-text-muted);line-height:1.6;">Lanzar campaña inmediata post-cada alza de Liberty: "¿Te subieron el precio? Cámbiese hoy. Le congelamos el precio 18 meses." Retargeting a usuarios que buscan "Liberty Costa Rica precio" o "cancelar Liberty". Ventana de oportunidad de 45 días post-alza.</div>
+        </div>
+
+        <div style="background:var(--c-green-dim);border:1px solid rgba(0,208,138,0.25);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-green);margin-bottom:0.6rem;">🏘 Dominar urbanizaciones nuevas</div>
+          <div style="font-size:0.8rem;color:var(--c-text-muted);line-height:1.6;">Cada urbanización nueva = territorio virgen. Alianza con desarrolladoras para ser el ISP preinstalado. Ofrecer primer mes gratis a toda la urbanización. El que llega primero con FTTH gana al 80% de los vecinos por inercia. Instalar antes que Liberty.</div>
+        </div>
+
+        <div style="background:var(--c-blue-dim);border:1px solid var(--c-blue-mid);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-blue);margin-bottom:0.6rem;">👥 Programa de referidos</div>
+          <div style="font-size:0.8rem;color:var(--c-text-muted);line-height:1.6;">1 mes gratis por cada referido que active. Gamificación: top referidores del mes ganan upgrade de velocidad permanente. El tico confía más en la recomendación del vecino que en cualquier anuncio. Referido = el canal de adquisición más barato y efectivo.</div>
+        </div>
+
+        <div style="background:var(--c-purple-dim);border:1px solid rgba(124,92,252,0.25);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-purple);margin-bottom:0.6rem;">🔒 Anti-cancelación inteligente</div>
+          <div style="font-size:0.8rem;color:var(--c-text-muted);line-height:1.6;">Sistema de retención proactivo: detectar clientes con bajo uso o quejas recurrentes → llamada humana antes de que cancelen. Ofrecer upgrade de velocidad gratis por 3 meses. El cliente que recibe atención antes de quejarse no se va. Costo de retención = 20% del costo de adquisición.</div>
+        </div>
+
+        <div style="background:var(--c-cyan-dim);border:1px solid rgba(0,207,221,0.25);border-radius:var(--radius-md);padding:1.25rem;">
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-cyan);margin-bottom:0.6rem;">📈 Oportunidad 5G futura</div>
+          <div style="font-size:0.8rem;color:var(--c-text-muted);line-height:1.6;">Clientes Infinito Max reciben descuento del 20% prioritario cuando Claro lance 5G. Esta promesa futura aumenta la retención hoy. El cliente no se va si siente que está en el mejor tren. FTTH hoy + 5G mañana = ecosistema cerrado al estilo Apple.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ROADMAP VISUAL -->
+    <div class="reveal" style="margin-bottom:2rem;">
+      <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin-bottom:1.25rem;color:var(--c-text);">Roadmap Estratégico — 24 meses</div>
+      <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:2rem;overflow-x:auto;">
+        <div style="display:flex;gap:0;min-width:700px;position:relative;">
+          <!-- Connector line -->
+          <div style="position:absolute;top:24px;left:24px;right:24px;height:2px;background:linear-gradient(90deg,var(--c-blue),var(--c-cyan),var(--c-purple),var(--c-green));z-index:0;"></div>
+          <!-- Phases -->
+          <div style="flex:1;text-align:center;position:relative;z-index:1;">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--c-blue);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-family:var(--font-display);font-weight:800;font-size:1rem;color:#fff;">Q1</div>
+            <div style="font-size:0.72rem;font-weight:700;color:var(--c-blue);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">Lanzamiento</div>
+            <div style="font-size:0.75rem;color:var(--c-text-muted);line-height:1.5;">Campaña churn Liberty. Precio congelado. Champions como gancho.</div>
+          </div>
+          <div style="flex:1;text-align:center;position:relative;z-index:1;">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--c-cyan);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-family:var(--font-display);font-weight:800;font-size:1rem;color:#050811;">Q2</div>
+            <div style="font-size:0.72rem;font-weight:700;color:var(--c-cyan);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">Expansión</div>
+            <div style="font-size:0.75rem;color:var(--c-text-muted);line-height:1.5;">Urbanizaciones nuevas. Programa referidos. Zonas coaxial Liberty.</div>
+          </div>
+          <div style="flex:1;text-align:center;position:relative;z-index:1;">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--c-purple);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-family:var(--font-display);font-weight:800;font-size:1rem;color:#fff;">Q3</div>
+            <div style="font-size:0.72rem;font-weight:700;color:var(--c-purple);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">Fidelización</div>
+            <div style="font-size:0.75rem;color:var(--c-text-muted);line-height:1.5;">Upgrades automáticos. Sistema anti-churn activo. Prueba social masiva.</div>
+          </div>
+          <div style="flex:1;text-align:center;position:relative;z-index:1;">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--c-green);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-family:var(--font-display);font-weight:800;font-size:1rem;color:#050811;">Q4</div>
+            <div style="font-size:0.72rem;font-weight:700;color:var(--c-green);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">Convergencia</div>
+            <div style="font-size:0.75rem;color:var(--c-text-muted);line-height:1.5;">Paquete fija+móvil Claro. Prelanzamiento 5G. Meta: 12% market share.</div>
+          </div>
+        </div>
+
+        <!-- KPI targets -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--c-border);">
+          <div style="text-align:center;">
+            <div style="font-size:0.65rem;color:var(--c-text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">Meta Q1</div>
+            <div style="font-family:var(--font-display);font-weight:800;font-size:1.2rem;color:var(--c-blue);">+2k</div>
+            <div style="font-size:0.7rem;color:var(--c-text-dim);">subs nuevos</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:0.65rem;color:var(--c-text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">Meta Q2</div>
+            <div style="font-family:var(--font-display);font-weight:800;font-size:1.2rem;color:var(--c-cyan);">10%</div>
+            <div style="font-size:0.7rem;color:var(--c-text-dim);">market share</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:0.65rem;color:var(--c-text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">Meta Q3</div>
+            <div style="font-family:var(--font-display);font-weight:800;font-size:1.2rem;color:var(--c-purple);">&lt;3%</div>
+            <div style="font-size:0.7rem;color:var(--c-text-dim);">tasa churn</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:0.65rem;color:var(--c-text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">Meta Q4</div>
+            <div style="font-family:var(--font-display);font-weight:800;font-size:1.2rem;color:var(--c-green);">12%</div>
+            <div style="font-size:0.7rem;color:var(--c-text-dim);">market share</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODELO DE NEGOCIO -->
+    <div class="reveal">
+      <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin-bottom:1rem;color:var(--c-text);">Modelo de negocio — Psicología de precio vs valor percibido</div>
+      <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:1.75rem;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;">
+          <div>
+            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:0.75rem;">Costo percibido</div>
+            <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--c-green);">₡28.900</div>
+            <div style="font-size:0.78rem;color:var(--c-text-muted);margin-top:0.25rem;">Lo que el cliente ve en su factura</div>
+          </div>
+          <div>
+            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:0.75rem;">Valor entregado (estimado)</div>
+            <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--c-blue);">₡85.000+</div>
+            <div style="font-size:0.78rem;color:var(--c-text-muted);margin-top:0.25rem;">Internet + IPTV + Sport + router Mesh + antivirus + upgrade</div>
+          </div>
+          <div>
+            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:0.75rem;">Ratio valor/precio</div>
+            <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--c-cyan);">2.9×</div>
+            <div style="font-size:0.78rem;color:var(--c-text-muted);margin-top:0.25rem;">El cliente recibe casi 3 veces lo que paga — psicología Amazon Prime</div>
+          </div>
+          <div>
+            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:0.75rem;">ARPU objetivo año 2</div>
+            <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--c-purple);">₡32.500</div>
+            <div style="font-size:0.78rem;color:var(--c-text-muted);margin-top:0.25rem;">Upgrades + servicios adicionales + referidos activos</div>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem;padding:1rem;background:var(--c-surface2);border-radius:var(--radius-md);font-size:0.82rem;color:var(--c-text-muted);line-height:1.7;border-left:3px solid var(--c-cyan);border-radius:0;">
+          <strong style="color:var(--c-text);">Principio de anclaje psicológico:</strong> El cliente compara ₡28.900 de Claro Infinito Pro contra ₡35.000+ de Liberty (post-alza) y siente que "está ganando". Pero la clave es el valor oculto acumulado — router Mesh, antivirus, upgrade automático — que hace irracional no quedarse. Exactamente el modelo Amazon Prime: una vez que entras en el ecosistema, cancelar se siente como perder.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- ============================================================ FOOTER -->
+  <footer>
+    <div class="container">
+      <p>Análisis Competitivo Claro vs Liberty Costa Rica &mdash; Documento interno estratégico 2025–2026</p>
+      <p style="margin-top:0.35rem;">Basado en datos SUTEL, El Financiero, nPerf y fuentes del sector. Para uso interno del equipo comercial.</p>
+    </div>
+  </footer>
+
+</div><!-- /page -->
+
+<script>
+// ============================================================
+// LOADER
+// ============================================================
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+  }, 1800);
+});
+
+// ============================================================
+// SCROLL REVEAL (IntersectionObserver)
+// ============================================================
+const revealEls = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // Animate metric counts when visible
+      if (e.target.querySelector('[data-count]')) {
+        animateCounts(e.target);
+      }
+    }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => revealObs.observe(el));
+
+// ============================================================
+// COUNTER ANIMATION
+// ============================================================
+function animateCounts(parent) {
+  parent.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const decimals = target % 1 !== 0 ? 1 : 0;
+    const dur = 1400;
+    const start = performance.now();
+    function step(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = (target * eased).toFixed(decimals);
+      el.textContent = val + suffix;
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+// ============================================================
+// BAR FILL ANIMATION (share bars)
+// ============================================================
+const barObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      // animate both types
+      e.target.querySelectorAll('.share-bar-fill[data-width], .mshare-fill[data-width]').forEach(bar => {
+        const maxW = 100; // percent of track
+        const pct = parseFloat(bar.dataset.width);
+        const scaledWidth = (pct / 30) * 100; // scale to max ~30% becoming 100% of bar
+        bar.style.width = Math.min(scaledWidth, 100) + '%';
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.metric-card, #mshare-list').forEach(el => barObs.observe(el));
+
+// ============================================================
+// RADAR SVG CHART
+// ============================================================
+(function drawRadar() {
+  const dims = [
+    { label: 'Tecnología FTTH', claro: 9.5, liberty: 6 },
+    { label: 'Precio', claro: 8.5, liberty: 5 },
+    { label: 'Velocidad', claro: 9, liberty: 7 },
+    { label: 'Entretenimiento', claro: 6.5, liberty: 8.5 },
+    { label: 'Cobertura', claro: 5, liberty: 8 },
+    { label: 'Convergencia', claro: 4, liberty: 8.5 },
+    { label: 'IPTV', claro: 8, liberty: 7 },
+    { label: 'Fútbol/Sport', claro: 9, liberty: 4 },
+  ];
+
+  const svg = document.getElementById('radar-svg');
+  const cx = 250, cy = 200, r = 140;
+  const n = dims.length;
+  const levels = 5;
+
+  function toXY(angle, radius) {
+    return {
+      x: cx + radius * Math.sin(angle),
+      y: cy - radius * Math.cos(angle)
+    };
+  }
+
+  function makePolygon(data, scale) {
+    return data.map((d, i) => {
+      const angle = (2 * Math.PI * i) / n;
+      const p = toXY(angle, (d / 10) * r * scale);
+      return `${p.x},${p.y}`;
+    }).join(' ');
+  }
+
+  let html = '';
+
+  // Grid rings
+  for (let l = 1; l <= levels; l++) {
+    const rr = (l / levels) * r;
+    const pts = Array.from({length: n}, (_, i) => {
+      const a = (2 * Math.PI * i) / n;
+      const p = toXY(a, rr);
+      return `${p.x},${p.y}`;
+    }).join(' ');
+    html += `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;
+  }
+
+  // Spokes
+  for (let i = 0; i < n; i++) {
+    const angle = (2 * Math.PI * i) / n;
+    const p = toXY(angle, r);
+    html += `<line x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>`;
+  }
+
+  // Liberty polygon
+  const libertyClaroPts = dims.map(d => d.liberty);
+  html += `<polygon points="${makePolygon(libertyClaroPts,1)}" fill="rgba(255,79,106,0.12)" stroke="#ff4f6a" stroke-width="2" stroke-linejoin="round"/>`;
+
+  // Claro polygon
+  const claroScores = dims.map(d => d.claro);
+  html += `<polygon points="${makePolygon(claroScores,1)}" fill="rgba(46,127,255,0.15)" stroke="#2e7fff" stroke-width="2.5" stroke-linejoin="round"/>`;
+
+  // Data points
+  dims.forEach((d, i) => {
+    const angle = (2 * Math.PI * i) / n;
+    const pc = toXY(angle, (d.claro / 10) * r);
+    const pl = toXY(angle, (d.liberty / 10) * r);
+    html += `<circle cx="${pc.x}" cy="${pc.y}" r="4" fill="#2e7fff"/>`;
+    html += `<circle cx="${pl.x}" cy="${pl.y}" r="4" fill="#ff4f6a"/>`;
+  });
+
+  // Labels
+  dims.forEach((d, i) => {
+    const angle = (2 * Math.PI * i) / n;
+    const lp = toXY(angle, r + 24);
+    const anchor = lp.x < cx - 5 ? 'end' : lp.x > cx + 5 ? 'start' : 'middle';
+    html += `<text x="${lp.x}" y="${lp.y}" text-anchor="${anchor}" font-size="11" fill="#6b7a9a" font-family="DM Sans, sans-serif">${d.label}</text>`;
+  });
+
+  // Center
+  html += `<circle cx="${cx}" cy="${cy}" r="3" fill="rgba(255,255,255,0.2)"/>`;
+
+  // Legend
+  html += `<rect x="10" y="370" width="12" height="12" rx="3" fill="#2e7fff"/><text x="27" y="381" font-size="11" fill="#6b7a9a" font-family="DM Sans, sans-serif">Claro</text>`;
+  html += `<rect x="80" y="370" width="12" height="12" rx="3" fill="#ff4f6a"/><text x="97" y="381" font-size="11" fill="#6b7a9a" font-family="DM Sans, sans-serif">Liberty</text>`;
+
+  svg.innerHTML = html;
+})();
+
+// ============================================================
+// SMOOTH SCROLL
+// ============================================================
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+// ============================================================
+// NAV ACTIVE STATE
+// ============================================================
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current
+      ? 'var(--c-text)'
+      : '';
+    a.style.background = a.getAttribute('href') === '#' + current
+      ? 'var(--c-surface2)'
+      : '';
+  });
+}, { passive: true });
+</script>
+</body>
+</html>
